@@ -1,21 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyApp.Server.Data;
 using MyApp.Server.Models;
+using MyApp.Server.Models.DTO;
 
 namespace MyApp.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/MyDacha")]
     public class MyDachaController: ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Dacha> GetDachas()
+        public IEnumerable<DachaDTO> GetDachas()
         {
-            return new List<Dacha>
-            {
-                new Dacha { Id = 1, Name = "Katta Dacha" },
-                new Dacha { Id = 2, Name = "Kichkina Dacha" },
-                new Dacha { Id = 3, Name = "Quyoshli Dacha" },
-            };
+            return DachaStore.DachaList;
+        }
+
+        [HttpGet("id")]
+        public DachaDTO GetDachaById(int id)
+        {
+            return DachaStore.DachaList.FirstOrDefault(u => u.Id == id);
         }
     }
 }

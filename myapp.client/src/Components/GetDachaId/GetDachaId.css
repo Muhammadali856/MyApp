@@ -1,0 +1,138 @@
+.body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    box-sizing: border-box;
+    color: #333;
+}
+
+.body h1 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2em;
+    line-height: 1.2;
+}
+
+.body input[type="text"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #a0aec0;
+    border-radius: 8px;
+    font-size: 1.1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.body input[type="text"]:focus {
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+    outline: none;
+}
+
+.body div {
+    font-size: 1.1em;
+    color: #555;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.dacha-details {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    margin-top: 30px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.dacha-details h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 10px;
+}
+
+.dacha-details p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.dacha-details p strong {
+    color: #3182ce;
+    margin-right: 5px;
+}
+
+.body p {
+    font-size: 1.1em;
+    color: #666;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.notFinded-Error {
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: bold;
+}
+
+.notFinded-Error p {
+    margin: 5px 0;
+    color: inherit;
+}
+
+@media (max-width: 768px) {
+    .body h1 {
+        font-size: 1.8em;
+    }
+
+    .body input[type="text"],
+    .dacha-details,
+    .notFinded-Error {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .body h1 {
+        font-size: 1.5em;
+    }
+
+    .body {
+        padding: 15px;
+    }
+
+    .body input[type="text"],
+    .dacha-details,
+    .notFinded-Error {
+        width: 95%;
+    }
+
+    .dacha-details h2 {
+        font-size: 1.4em;
+    }
+
+    .dacha-details p {
+        font-size: 1em;
+    }
+}
