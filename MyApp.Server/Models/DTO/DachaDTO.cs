@@ -13,7 +13,6 @@ namespace MyApp.Server.Models.DTO
         public string Name { get; set; }
         public int Sqft { get; set; }
         public string IsAvailable { get; set; }
-        public string Description { get; set; }
 
     }
 }

@@ -1,49 +1,184 @@
-.body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+/* GetAllDachas.css */
 
-h1 {
-    color: #333;
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-ol {
-    list-style-type: decimal;
-    padding-left: 25px;
-}
-
-li {
+/* Main container for the list of dachas */
+.all-dachas-container {
+    max-width: 750px; /* Slightly wider for more content space */
+    width: 100%; /* Ensure it takes full width on smaller screens */
+    margin: auto; /* Centers the container */
+    padding: 40px; /* Increased inner padding */
     background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 12px 15px;
-    font-size: 1.1em;
-    color: #444;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 15px; /* More rounded corners for a softer look */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Stronger, more diffused shadow */
+    /* *** MODIFIED ANIMATION FOR MORE IMPACT *** */
+    animation: fadeInScale 1s ease-out forwards; /* Slightly longer duration for smoother effect */
+    color: #333;
+    position: relative; /* Needed for pseudo-elements if added */
+    overflow: hidden; /* Ensures shadows/animations don't spill */
 }
 
-li:hover {
-    background-color: #f0f0f0;
-    transition: background-color 0.2s ease;
+/* New animation for container: fade-in and more pronounced scale */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.9); /* Starts further down and smaller */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
-p {
+/* Styling for the main heading */
+.all-dachas-container h1 {
     text-align: center;
-    color: #777;
+    color: #2c3e50;
+    margin-bottom: 35px; /* More space below heading */
+    font-size: 2.8em; /* Larger, more impactful heading */
+    font-weight: 800; /* Extra bold */
+    letter-spacing: -1px; /* Tighter letter spacing */
+    position: relative;
+    padding-bottom: 12px; /* Space for the underline effect */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
+}
+
+/* Underline effect for the heading (consistent style, slightly enhanced) */
+.all-dachas-container h1::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100px; /* Wider, more prominent underline */
+    height: 5px; /* Thicker underline */
+    background: linear-gradient(to right, #3498db, #2980b9); /* Gradient for the underline */
+    border-radius: 3px;
+}
+
+/* Styling for the loading message */
+.all-dachas-container .loading-message {
+    text-align: center;
+    font-size: 1.4em; /* Larger loading message */
+    color: #007bff; /* Blue color for loading */
+    margin-top: 40px;
+    padding: 30px;
+    background-color: #e3f2fd; /* Lighter blue background */
+    border-radius: 12px;
+    border: 1px solid #90caf9;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     font-style: italic;
-    margin-top: 20px;
+    font-weight: 600;
+    animation: pulse 1.5s infinite ease-in-out; /* Pulsing animation for loading */
 }
 
-div {
+/* Pulsing animation keyframes */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.02); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Styling for the ordered list */
+.all-dachas-container ol {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+}
+
+/* Styling for each list item (Dacha) */
+.all-dachas-container ol li {
+    background-color: #fefefe; /* Very light background for items */
+    border: 1px solid #e0e0e0; /* Softer border */
+    border-left: 6px solid #2ecc71; /* Green highlight on the left */
+    border-radius: 10px; /* More rounded corners */
+    padding: 18px 25px; /* More padding */
+    margin-bottom: 18px; /* More space between list items */
+    font-size: 1.15em; /* Slightly larger text */
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    cursor: pointer; /* Indicate interactivity */
+    position: relative;
+    overflow: hidden; /* Hide overflow for subtle effects */
+}
+
+/* Add a subtle icon or numbering to list items (optional, can be done with content property) */
+.all-dachas-container ol li::before {
+    content: '🏠'; /* Home emoji */
+    margin-right: 15px;
+    font-size: 1.2em;
+    color: #2ecc71; /* Green color for the icon */
+}
+
+
+.all-dachas-container ol li:hover {
+    transform: translateY(-5px) scale(1.01); /* More pronounced lift and slight scale on hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+    background-color: #f0f8ff; /* Very light blue background on hover */
+    border-left: 6px solid #3498db; /* Change highlight color on hover */
+}
+
+/* Styling for the "No dachas available" message */
+.all-dachas-container .no-dachas-message {
     text-align: center;
-    margin-top: 20px;
-    color: #666;
+    font-size: 1.2em;
+    color: #8c756c; /* Warm, muted color */
+    padding: 25px;
+    background-color: #fff8e1; /* Soft yellow background */
+    border: 1px solid #ffecb3; /* Matching border */
+    border-radius: 10px;
+    margin-top: 35px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    font-style: italic;
+}
+
+/* Basic responsiveness */
+@media (max-width: 768px) {
+    .all-dachas-container {
+        margin: 20px;
+        padding: 30px;
+    }
+
+    .all-dachas-container h1 {
+        font-size: 2.2em;
+    }
+
+    .all-dachas-container ol li {
+        font-size: 1.05em;
+        padding: 15px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* body styles are now handled by index.css */
+    /* body {
+        padding: 10px;
+    } */
+    .all-dachas-container {
+        margin: 10px;
+        padding: 25px;
+        border-radius: 10px;
+    }
+
+    .all-dachas-container h1 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+
+    .all-dachas-container h1::after {
+        width: 70px;
+    }
+
+    .all-dachas-container ol li {
+        font-size: 0.95em;
+        padding: 12px 15px;
+        margin-bottom: 12px;
+    }
+
+    .all-dachas-container .loading-message,
+    .all-dachas-container .no-dachas-message {
+        font-size: 1.1em;
+        padding: 20px;
+    }
 }

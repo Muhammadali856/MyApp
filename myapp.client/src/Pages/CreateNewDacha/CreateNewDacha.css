@@ -1,0 +1,175 @@
+/* CreateNewDacha.css */
+
+/* General body styling for a clean background */
+body {
+    background-color: #f0f2f5; /* A very light grey/blue background for the page */
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Main container for the form */
+.create-dacha-container {
+    max-width: 600px;
+    margin: 50px auto; /* More vertical margin for better spacing from top/bottom */
+    padding: 35px; /* Increased inner padding */
+    background-color: #ffffff; /* Pure white background for the form */
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Stronger, softer shadow */
+    animation: fadeIn 0.8s ease-out; /* Fade-in animation for the container */
+}
+
+/* Fade-in animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Styling for the main heading */
+.create-dacha-container h2 {
+    text-align: center;
+    color: #2c3e50; /* A darker, modern blue-grey for the heading */
+    margin-bottom: 30px; /* More space below heading */
+    font-size: 2.2em; /* Slightly larger heading */
+    font-weight: 700; /* Bolder heading */
+    letter-spacing: -0.5px;
+    position: relative;
+    padding-bottom: 10px; /* Space for the underline effect */
+}
+
+/* Underline effect for the heading */
+.create-dacha-container h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60px; /* Length of the underline */
+    height: 4px; /* Thickness of the underline */
+    background-color: #3498db; /* Blue underline */
+    border-radius: 2px;
+}
+
+/* Styling for each form field's div container */
+.create-dacha-container form div {
+    margin-bottom: 25px; /* More space between form fields */
+}
+
+/* Styling for labels */
+.create-dacha-container label {
+    display: block;
+    margin-bottom: 10px; /* More space between label and input */
+    font-weight: 600;
+    color: #4a4a4a; /* Darker label color */
+    font-size: 1.15em; /* Slightly larger label font */
+}
+
+/* Styling for all text inputs, number inputs, and select dropdowns */
+.create-dacha-container input[type="text"],
+.create-dacha-container input[type="number"],
+.create-dacha-container select {
+    width: calc(100% - 28px); /* Adjust width to account for padding */
+    padding: 14px; /* More padding for a larger input feel */
+    border: 1px solid #dcdcdc; /* Lighter, subtle border */
+    border-radius: 8px; /* More rounded corners for inputs */
+    font-size: 1.05em; /* Slightly larger input text */
+    color: #333;
+    transition: all 0.3s ease; /* Smooth transition for all changes */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
+}
+
+/* Focus state for inputs and selects */
+.create-dacha-container input[type="text"]:focus,
+.create-dacha-container input[type="number"]:focus,
+.create-dacha-container select:focus {
+    border-color: #3498db; /* Brighter blue border on focus */
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.25); /* More prominent glow on focus */
+    outline: none;
+    background-color: #fafffe; /* Very light blue background on focus */
+}
+
+/* Styling for disabled elements (inputs, selects, buttons) */
+.create-dacha-container input:disabled,
+.create-dacha-container select:disabled,
+.create-dacha-container button:disabled {
+    background-color: #eceff1; /* Light grey for disabled state */
+    cursor: not-allowed;
+    opacity: 0.8;
+    box-shadow: none;
+}
+
+/* Styling for the submit button */
+.create-dacha-container button[type="submit"] {
+    width: 100%; /* Full width button */
+    padding: 16px; /* More padding for a larger button */
+    background-color: #28a745; /* A pleasant green for success/create actions */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.3em; /* Larger font size for the button */
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-top: 25px; /* More space above the button */
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2); /* Soft shadow for the button */
+}
+
+/* Hover and active effects for the submit button (when not disabled) */
+.create-dacha-container button[type="submit"]:hover:not(:disabled) {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-3px); /* More pronounced lift effect */
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3); /* Stronger shadow on hover */
+}
+
+.create-dacha-container button[type="submit"]:active:not(:disabled) {
+    transform: translateY(0); /* Press down effect */
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2); /* Reduced shadow when active */
+}
+
+/* Styling for the loading message */
+.create-dacha-container .loading-message {
+    text-align: center;
+    font-size: 1.3em; /* Larger loading message */
+    color: #555;
+    margin-top: 30px;
+    padding: 25px; /* More padding */
+    background-color: #e0f7fa; /* Light cyan background */
+    border-radius: 10px;
+    border: 1px solid #b2ebf2; /* Cyan border */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    font-style: italic;
+}
+
+/* Basic responsiveness for smaller screens */
+@media (max-width: 768px) {
+    .create-dacha-container {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    .create-dacha-container h2 {
+        font-size: 1.8em;
+    }
+
+    .create-dacha-container button[type="submit"] {
+        font-size: 1.1em;
+        padding: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-dacha-container {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .create-dacha-container h2 {
+        font-size: 1.6em;
+    }
+}

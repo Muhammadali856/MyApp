@@ -13,6 +13,11 @@ export function Navbar(){
                     Get Dacha By Id
                 </button>
             </Link>
+            <Link to="/CreateNewDacha">
+                <button>
+                    CreateNewDacha
+                </button>
+            </Link>
         </>
     )
 }

@@ -10,8 +10,8 @@ const GetAllDachas = () => {
     }, []);
 
     return (
-        <div className='body'>
-            {loading && <div>Loading...</div>}
+        <div className='all-dachas-container'> {/* Changed className from 'body' */}
+            {loading && <div className='loading-message'>Loading...</div>} {/* Added class for loading message */}
             {!loading && (
                 <>
                     <h1>Available Dachas:</h1>
@@ -22,7 +22,7 @@ const GetAllDachas = () => {
                             ))}
                         </ol>
                     ) : (
-                        !loading && <p>No dachas available.</p>
+                        !loading && <p className='no-dachas-message'>No dachas available.</p>
                     )}
                 </>
             )}

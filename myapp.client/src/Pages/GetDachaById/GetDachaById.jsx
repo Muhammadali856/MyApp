@@ -16,8 +16,8 @@ function GetDachaById (){
     }
 
     return (
-        <div className='body'>
-            <h1>Dacha haqida ma'lumot olish uchun dacha Id sini kiriting</h1>
+        <div className='get-dacha-by-id-container'>
+            <h1>Dacha haqida ma'lumot olish uchun dacha ID sini kiriting</h1>
 
             <input
                 type="text"
@@ -26,7 +26,7 @@ function GetDachaById (){
                 onChange={handleInputChange}
             />
 
-            {loading && <div>Yuklanmoqda...</div>}
+            {loading && <div className='loading-message'>Yuklanmoqda...</div>}
 
             {!loading && dacha && (
                 <div className='dacha-details'>
@@ -37,18 +37,24 @@ function GetDachaById (){
                     <p>
                         <strong>Nomi:</strong> {dacha.name}
                     </p>
+                    <p>
+                        <strong>Maydoni:</strong> {dacha.sqft}
+                    </p>
+                    <p>
+                        <strong>Hozil olsa bo'ladimi ?:</strong> {dacha.isAvailable}
+                    </p>
                 </div>
             )}
 
             {!loading && !dacha && dachaId && (
-                <div className='notFinded-Error'>
+                <div className='not-found-error'>
                     <p>Berilgan ID bo'yicha dacha topilmadi.</p>
                     <p>Bunday dacha bizda bo'lmasa kerak</p>
                 </div>
             )}
 
             {!loading && !dachaId && !dacha && (
-                <p>Dacha ID kiritishingizni kuting.</p>
+                <p className='initial-message'>Dacha ID kiritishingizni kuting.</p> 
             )}
         </div>
     );
@@ -59,14 +65,11 @@ function GetDachaById (){
             const response = await fetch('https://localhost:7019/api/MyDacha/id?id=' + dachaId);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Fetched data:', data);
                 setDacha(data);
             } else {
-                console.error('Failed to fetch dachas:', response.status, response.statusText);
                 setDacha(); 
             }
         } catch (error) {
-            console.error('Network or other error during fetch:', error);
             setDacha(null); 
         } finally {
             setLoading(false);

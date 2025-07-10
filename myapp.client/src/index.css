@@ -1,51 +1,75 @@
-/* Basic CSS Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* index.css */
 
+/* General body styling for a clean background - applied globally */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Using a subtle linear gradient for a more dynamic background */
+    background: linear-gradient(to right bottom, #e0f7fa, #c2e9fb);
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Prioritize Inter, then fallbacks */
     line-height: 1.6;
-    background-color: #eaeaea; /* Light grey background for the whole page */
     color: #333;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    display: flex; /* Use flexbox to help center content */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    padding: 20px; /* Add some padding for smaller screens */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    margin: 0; /* Remove default body margin */
 }
 
-
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
+/* Global button styling (for buttons not specifically styled by component CSS) */
 button {
-    background-color: #007bff; /* A nice blue */
+    background-color: #3498db; /* A vibrant blue */
     color: white;
-    padding: 10px 20px;
+    padding: 12px 25px; /* Slightly more padding */
     border: none;
-    border-radius: 5px;
+    border-radius: 8px; /* More rounded corners */
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    font-size: 1.1em; /* Slightly larger font */
+    font-weight: 600; /* Semi-bold */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     text-align: center;
     text-decoration: none;
-    display: inline-block; /* Allows padding and margin to be applied */
-    margin: 5px; /* Add a small margin around buttons */
-    margin-bottom: 50px;
+    display: inline-block;
+    margin: 8px; /* Slightly more margin around buttons */
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2); /* Soft shadow */
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #2980b9; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); /* Stronger shadow on hover */
 }
 
 button:active {
-    background-color: #004085; /* Even darker when clicked */
+    background-color: #2471a3; /* Even darker when clicked */
+    transform: translateY(0); /* Press down effect */
+    box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2); /* Reduced shadow when active */
 }
 
 button:focus {
-    outline: none; /* Remove default focus outline */
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Custom focus outline */
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.4); /* More prominent focus outline */
+}
+
+/* Basic responsiveness for global elements */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 1em;
+        margin: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        margin: 5px;
+    }
 }
