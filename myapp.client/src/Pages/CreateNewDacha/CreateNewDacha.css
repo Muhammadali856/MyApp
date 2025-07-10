@@ -1,22 +1,16 @@
 /* CreateNewDacha.css */
 
-/* General body styling for a clean background */
-body {
-    background-color: #f0f2f5; /* A very light grey/blue background for the page */
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-}
-
 /* Main container for the form */
 .create-dacha-container {
-    max-width: 600px;
-    margin: 50px auto; /* More vertical margin for better spacing from top/bottom */
-    padding: 35px; /* Increased inner padding */
+    max-width: 680px; /* Standardized max-width */
+    margin: 50px auto; /* Standardized vertical margin and centered */
+    padding: 35px; /* Standardized inner padding */
     background-color: #ffffff; /* Pure white background for the form */
-    border-radius: 12px; /* Slightly more rounded corners */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Stronger, softer shadow */
+    border-radius: 12px; /* Standardized rounded corners */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Standardized stronger, softer shadow */
     animation: fadeIn 0.8s ease-out; /* Fade-in animation for the container */
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
 }
 
 /* Fade-in animation keyframes */
@@ -32,25 +26,25 @@ body {
 }
 
 /* Styling for the main heading */
-.create-dacha-container h2 {
+.create-dacha-container h1 { /* Changed to h1 for semantic consistency */
     text-align: center;
     color: #2c3e50; /* A darker, modern blue-grey for the heading */
-    margin-bottom: 30px; /* More space below heading */
-    font-size: 2.2em; /* Slightly larger heading */
+    margin-bottom: 30px; /* Standardized space below heading */
+    font-size: 2.4em; /* Standardized slightly larger heading */
     font-weight: 700; /* Bolder heading */
     letter-spacing: -0.5px;
     position: relative;
-    padding-bottom: 10px; /* Space for the underline effect */
+    padding-bottom: 10px; /* Standardized space for the underline effect */
 }
 
 /* Underline effect for the heading */
-.create-dacha-container h2::after {
+.create-dacha-container h1::after { /* Changed to h1 for semantic consistency */
     content: '';
     position: absolute;
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    width: 60px; /* Length of the underline */
+    width: 80px; /* Standardized length of the underline */
     height: 4px; /* Thickness of the underline */
     background-color: #3498db; /* Blue underline */
     border-radius: 2px;
@@ -58,13 +52,13 @@ body {
 
 /* Styling for each form field's div container */
 .create-dacha-container form div {
-    margin-bottom: 25px; /* More space between form fields */
+    margin-bottom: 25px; /* Standardized space between form fields */
 }
 
 /* Styling for labels */
 .create-dacha-container label {
     display: block;
-    margin-bottom: 10px; /* More space between label and input */
+    margin-bottom: 10px; /* Standardized space between label and input */
     font-weight: 600;
     color: #4a4a4a; /* Darker label color */
     font-size: 1.15em; /* Slightly larger label font */
@@ -74,12 +68,13 @@ body {
 .create-dacha-container input[type="text"],
 .create-dacha-container input[type="number"],
 .create-dacha-container select {
-    width: calc(100% - 28px); /* Adjust width to account for padding */
+    width: 100%; /* Full width */
     padding: 14px; /* More padding for a larger input feel */
     border: 1px solid #dcdcdc; /* Lighter, subtle border */
     border-radius: 8px; /* More rounded corners for inputs */
     font-size: 1.05em; /* Slightly larger input text */
     color: #333;
+    box-sizing: border-box; /* Include padding and border in width calculation */
     transition: all 0.3s ease; /* Smooth transition for all changes */
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
 }
@@ -92,6 +87,12 @@ body {
     box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.25); /* More prominent glow on focus */
     outline: none;
     background-color: #fafffe; /* Very light blue background on focus */
+}
+
+/* Placeholder styling */
+.create-dacha-container input[type="text"]::placeholder,
+.create-dacha-container input[type="number"]::placeholder {
+    color: #a0a0a0; /* Lighter placeholder text */
 }
 
 /* Styling for disabled elements (inputs, selects, buttons) */
@@ -116,7 +117,7 @@ body {
     font-weight: 700;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    margin-top: 25px; /* More space above the button */
+    margin-top: 25px; /* Standardized space above the button */
     box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2); /* Soft shadow for the button */
 }
 
@@ -153,7 +154,7 @@ body {
         padding: 25px;
     }
 
-    .create-dacha-container h2 {
+    .create-dacha-container h1 { /* Changed to h1 */
         font-size: 1.8em;
     }
 
@@ -169,7 +170,7 @@ body {
         padding: 20px;
     }
 
-    .create-dacha-container h2 {
+    .create-dacha-container h1 { /* Changed to h1 */
         font-size: 1.6em;
     }
 }

@@ -1,0 +1,61 @@
+/* Navbar.css */
+
+.navbar-container {
+    display: flex; /* Arrange items in a row */
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Vertically align items */
+    background-color: #232f3e; /* Dark blue, similar to Amazon's top bar */
+    padding: 10px 20px; /* Vertical and horizontal padding */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    position: sticky; /* Makes the navbar stick to the top */
+    top: 0; /* Sticks it to the very top of the viewport */
+    z-index: 1000; /* Ensures it stays on top of other content */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+
+.navbar-container .link-button {
+    background-color: #f3a847; /* A bright orange/yellow for buttons, like Amazon's call to action */
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    margin: 5px 10px; /* Space between buttons */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none; /* Remove underline from Link */
+    display: inline-block; /* Ensures padding and margin work correctly */
+}
+
+.navbar-container .link-button:hover {
+    background-color: #e38a0e; /* Darker orange on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.navbar-container .link-button:active {
+    transform: translateY(0); /* Press down effect */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 8px 15px;
+    }
+    .navbar-container .link-button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        margin: 5px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-container {
+        flex-direction: column; /* Stack buttons vertically on very small screens */
+        padding: 10px;
+    }
+    .navbar-container .link-button {
+        width: calc(100% - 20px); /* Make buttons full width minus margin */
+        margin: 5px 0; /* Adjust margin for vertical stacking */
+    }
+}

@@ -50,7 +50,7 @@ const CreateNewDacha = () => {
 
     return (
         <div className="create-dacha-container">
-            <h2>Create New Dacha 🏡</h2>
+            <h1>Create New Dacha 🏡</h1>
             {loading ? (
                 <p className="loading-message">Loading... Creating Dacha...</p>
             ) : (

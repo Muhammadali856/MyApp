@@ -2,13 +2,13 @@
 
 /* Main container for the list of dachas */
 .all-dachas-container {
-    max-width: 750px; /* Slightly wider for more content space */
+    max-width: 680px; /* Standardized max-width */
     width: 100%; /* Ensure it takes full width on smaller screens */
-    margin: auto; /* Centers the container */
-    padding: 40px; /* Increased inner padding */
+    margin: 50px auto; /* Standardized vertical margin and centered */
+    padding: 35px; /* Standardized inner padding */
     background-color: #ffffff;
-    border-radius: 15px; /* More rounded corners for a softer look */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Stronger, more diffused shadow */
+    border-radius: 12px; /* Standardized rounded corners */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Standardized stronger, more diffused shadow */
     /* *** MODIFIED ANIMATION FOR MORE IMPACT *** */
     animation: fadeInScale 1s ease-out forwards; /* Slightly longer duration for smoother effect */
     color: #333;
@@ -32,12 +32,12 @@
 .all-dachas-container h1 {
     text-align: center;
     color: #2c3e50;
-    margin-bottom: 35px; /* More space below heading */
-    font-size: 2.8em; /* Larger, more impactful heading */
+    margin-bottom: 30px; /* Standardized space below heading */
+    font-size: 2.4em; /* Standardized larger, more impactful heading */
     font-weight: 800; /* Extra bold */
     letter-spacing: -1px; /* Tighter letter spacing */
     position: relative;
-    padding-bottom: 12px; /* Space for the underline effect */
+    padding-bottom: 10px; /* Standardized space for the underline effect */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
 }
 
@@ -48,7 +48,7 @@
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    width: 100px; /* Wider, more prominent underline */
+    width: 80px; /* Standardized wider, more prominent underline */
     height: 5px; /* Thicker underline */
     background: linear-gradient(to right, #3498db, #2980b9); /* Gradient for the underline */
     border-radius: 3px;

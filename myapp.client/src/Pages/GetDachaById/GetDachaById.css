@@ -2,12 +2,12 @@
 
 /* Main container for the Get Dacha By ID component */
 .get-dacha-by-id-container {
-    max-width: 650px; /* Slightly wider for better layout */
-    margin: 50px auto; /* Center with vertical spacing */
-    padding: 35px; /* Inner padding */
+    max-width: 680px; /* Standardized max-width */
+    margin: 50px auto; /* Standardized vertical spacing and centered */
+    padding: 35px; /* Standardized inner padding */
     background-color: #ffffff;
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Soft, prominent shadow */
+    border-radius: 12px; /* Standardized rounded corners */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Standardized soft, prominent shadow */
     animation: fadeInScale 0.9s ease-out forwards; /* Consistent animation */
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     color: #333;
@@ -29,12 +29,12 @@
 .get-dacha-by-id-container h1 {
     text-align: center;
     color: #2c3e50;
-    margin-bottom: 30px;
-    font-size: 2.2em; /* Impactful heading */
+    margin-bottom: 30px; /* Standardized space below heading */
+    font-size: 2.4em; /* Standardized impactful heading */
     font-weight: 700;
     letter-spacing: -0.5px;
     position: relative;
-    padding-bottom: 10px;
+    padding-bottom: 10px; /* Standardized space for the underline effect */
 }
 
 /* Underline effect for the heading */
@@ -44,7 +44,7 @@
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    width: 80px; /* Wider underline */
+    width: 80px; /* Standardized wider underline */
     height: 4px;
     background: linear-gradient(to right, #3498db, #2980b9); /* Gradient underline */
     border-radius: 2px;
@@ -54,7 +54,7 @@
 .get-dacha-by-id-container input[type="text"] {
     width: calc(100% - 28px); /* Full width minus padding */
     padding: 14px;
-    margin-bottom: 25px; /* Space below input */
+    margin-bottom: 25px; /* Standardized space below input */
     border: 1px solid #dcdcdc;
     border-radius: 8px;
     font-size: 1.05em;
