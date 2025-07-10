@@ -1,0 +1,77 @@
+.body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+input[type="text"]::placeholder {
+    color: #aaa;
+}
+
+.dacha-details {
+    background-color: #e9f7ef; /* Light green */
+    border: 1px solid #d4edda;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.dacha-details h2 {
+    color: #28a745; /* Green */
+    margin-top: 0;
+}
+
+.dacha-details p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.dacha-details strong {
+    color: #555;
+}
+
+.notFinded-Error {
+    background-color: #ffebeb; /* Light red */
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+    color: #dc3545; /* Red */
+    text-align: center;
+}
+
+.notFinded-Error p {
+    margin: 5px 0;
+}
+
+div {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}
+
+p {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}

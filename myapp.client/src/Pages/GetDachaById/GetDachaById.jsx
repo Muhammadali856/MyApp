@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './GetDachaId.css';
+import './GetDachaById.css';
 
-function GetDachaId (){
+function GetDachaById (){
 
     const [dachaId, setDachaId] = useState('');
     const [loading, setLoading] = useState(false);
@@ -75,4 +75,4 @@ function GetDachaId (){
 
 }
 
-export default GetDachaId
+export default GetDachaById
