@@ -38,6 +38,30 @@ namespace MyApp.Server.Controllers
             return Ok(dacha);
         }
 
+        [HttpGet("name", Name = "GetDachaByName")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<DachaDTO> GetDachaByName(string name)
+        {
+            if (name == null)
+            {
+                return BadRequest();
+            }
+
+            name = name.ToLower();
+
+            var dacha = DachaStore.DachaList.FirstOrDefault(u => u.Name.ToLower() == name);
+
+            if (dacha == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(dacha);
+        }
+
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

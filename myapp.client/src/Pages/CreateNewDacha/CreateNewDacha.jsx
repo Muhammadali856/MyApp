@@ -29,8 +29,6 @@ const CreateNewDacha = () => {
             });
 
             if (response.ok) {
-                const result = await response.json();
-                console.log('Success:', result);
                 alert('Dacha created successfully! 🎉');
                 setName("");
                 setSqft("");
