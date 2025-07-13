@@ -1,6 +1,17 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
+    .WriteTo.File("logs/DachaLogs.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+builder.Services.AddControllers(option =>
+{
+
+}).AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
