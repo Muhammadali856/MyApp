@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Server.Data;
+using MyApp.Server.Logging;
 using MyApp.Server.Models;
 using MyApp.Server.Models.DTO;
 
@@ -10,8 +11,8 @@ namespace MyApp.Server.Controllers
     [Route("api/MyDacha")]
     public class MyDachaController : ControllerBase
     {
-        private readonly ILogger<MyDachaController> _logger;
-        public MyDachaController(ILogger<MyDachaController> logger)
+        private readonly ILogging _logger;
+        public MyDachaController(ILogging logger)
         {
             _logger = logger;
         }
@@ -20,9 +21,9 @@ namespace MyApp.Server.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<DachaDTO>> GetDachas()
         {
-            _logger.LogInformation("GetDachas method called.");
+            _logger.Log("GetDachas method called.", "");
             var dachas = DachaStore.DachaList;
-            _logger.LogInformation("Successfully retrieved {DachaCount} dachas.", dachas.Count);
+            _logger.Log($"Successfully retrieved {dachas.Count} dachas.", "");
             return Ok(dachas);
         }
 
@@ -32,10 +33,10 @@ namespace MyApp.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<DachaDTO> GetDachaById(int id)
         {
-            _logger.LogInformation("GetDachaById method called for ID: {DachaId}.", id);
+            _logger.Log($"GetDachaById method called for ID: {id}.", "");
             if (id <= 0)
             {
-                _logger.LogError("GetDachaById called with invalid ID: {InvalidId}. Returning BadRequest.", id);
+                _logger.Log($"GetDachaById called with invalid ID: {id}. Returning BadRequest.", "error");
                 return BadRequest("Dacha ID cannot be zero or negative.");
             }
 
@@ -43,11 +44,11 @@ namespace MyApp.Server.Controllers
 
             if (dacha == null)
             {
-                _logger.LogWarning("Dacha with ID: {DachaId} not found in database. Returning NotFound.", id);
+                _logger.Log($"Dacha with ID: {id} not found in database. Returning NotFound.", "warning");
                 return NotFound($"Dacha with ID {id} not found.");
             }
 
-            _logger.LogInformation("Successfully retrieved Dacha with ID: {DachaId}.", id);
+            _logger.Log($"Successfully retrieved Dacha with ID: {id}.", "");
             return Ok(dacha);
         }
 
@@ -57,10 +58,10 @@ namespace MyApp.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<DachaDTO> GetDachaByName(string name)
         {
-            _logger.LogInformation("GetDachaByName method called for Name: {DachaName}.", name);
+            _logger.Log($"GetDachaByName method called for Name: {name}.", "");
             if (string.IsNullOrWhiteSpace(name))
             {
-                _logger.LogError("GetDachaByName method called with null or empty name. Returning BadRequest.", name);
+                _logger.Log("GetDachaByName method called with null or empty name. Returning BadRequest.", "error");
                 return BadRequest("Dacha name cannot be empty.");
             }
 
@@ -68,11 +69,11 @@ namespace MyApp.Server.Controllers
 
             if (dacha == null)
             {
-                _logger.LogWarning("Dacha with Name: '{DachaName}' not found in database. Returning NotFound.", name);
+                _logger.Log($"Dacha with Name: '{name}' not found in database. Returning NotFound.", "warning");
                 return NotFound($"Dacha with name '{name}' not found.");
             }
 
-            _logger.LogInformation("Successfully retrieved Dacha with Name: '{DachaName}'.", name);
+            _logger.Log($"Successfully retrieved Dacha with Name: '{name}'.", "");
             return Ok(dacha);
         }
 
@@ -82,43 +83,43 @@ namespace MyApp.Server.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<DachaDTO> CreateDacha([FromBody] DachaDTO dachaDto)
         {
-            _logger.LogInformation("CreateDacha method called for Dacha: '{DachaName}'.", dachaDto?.Name);
+            _logger.Log($"CreateDacha method called for Dacha: '{dachaDto?.Name}'.", "");
 
             if (dachaDto == null)
             {
-                _logger.LogError("CreateDacha called with a null DachaDTO. Returning BadRequest.");
+                _logger.Log("CreateDacha called with a null DachaDTO. Returning BadRequest.", "error");
                 return BadRequest("Dacha data is required.");
             }
 
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CreateDacha called with invalid model state. Errors: {ModelStateErrors}", ModelState);
+                _logger.Log($"CreateDacha called with invalid model state. Errors: {ModelState}", "error");
                 return BadRequest(ModelState);
             }
 
             if (DachaStore.DachaList.Any(u => u.Name.Equals(dachaDto.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 ModelState.AddModelError("CustomError", "Bunday Dacha mavjud. Iltimos, boshqa nom kiriting.");
-                _logger.LogWarning("Attempt to create Dacha with duplicate name: '{DachaName}'. Returning BadRequest.", dachaDto.Name);
+                _logger.Log($"Attempt to create Dacha with duplicate name: '{dachaDto.Name}'. Returning BadRequest.", "warning");
                 return BadRequest(ModelState);
             }
 
             if (dachaDto.Id > 0)
             {
-                _logger.LogError("CreateDacha received DachaDTO with pre-assigned ID: {DachaId}. Returning InternalServerError.", dachaDto.Id);
+                _logger.Log($"CreateDacha received DachaDTO with pre-assigned ID: {dachaDto.Id}. Returning InternalServerError.", "error");
                 return StatusCode(StatusCodes.Status500InternalServerError, "New Dacha should not have an ID.");
             }
 
             if (string.IsNullOrWhiteSpace(dachaDto.Name))
             {
-                _logger.LogError("CreateDacha called with an empty or null Dacha name. Returning BadRequest.");
+                _logger.Log("CreateDacha called with an empty or null Dacha name. Returning BadRequest.", "error");
                 return BadRequest(new { message = "Sizning so'rovingizda xatolik bor. Dacha nomini kiritishingiz shart." });
             }
 
             dachaDto.Id = DachaStore.DachaList.Any() ? DachaStore.DachaList.Max(u => u.Id) + 1 : 1;
             DachaStore.DachaList.Add(dachaDto);
 
-            _logger.LogInformation("Successfully created new Dacha with ID: {DachaId} and Name: '{DachaName}'.", dachaDto.Id, dachaDto.Name);
+            _logger.Log($"Successfully created new Dacha with ID: {dachaDto.Id} and Name: '{dachaDto.Name}'.", "");
             return CreatedAtRoute("GetDachaById", new { id = dachaDto.Id }, dachaDto);
         }
 
@@ -128,11 +129,11 @@ namespace MyApp.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult DeleteDacha(int id)
         {
-            _logger.LogInformation("DeleteDacha method called for ID: {DachaId}.", id);
+            _logger.Log($"DeleteDacha method called for ID: {id}.", "");
 
             if (id <= 0)
             {
-                _logger.LogError("DeleteDacha called with invalid ID: {InvalidId}. Returning BadRequest.", id);
+                _logger.Log($"DeleteDacha called with invalid ID: {id}. Returning BadRequest.", "error");
                 return BadRequest("Dacha ID cannot be zero or negative.");
             }
 
@@ -140,13 +141,12 @@ namespace MyApp.Server.Controllers
 
             if (dachaToDelete == null)
             {
-                _logger.LogWarning("Dacha with ID: {DachaId} not found for deletion. Returning NotFound.", id);
+                _logger.Log($"Dacha with ID: {id} not found for deletion. Returning NotFound.", "warning");
                 return NotFound($"Dacha with ID {id} not found.");
             }
 
             DachaStore.DachaList.Remove(dachaToDelete);
-            _logger.LogInformation("Successfully deleted Dacha with ID: {DachaId} and Name: '{DachaName}'.", id, dachaToDelete.Name);
-
+            _logger.Log($"Successfully deleted Dacha with ID: {id} and Name: '{dachaToDelete.Name}'.", "");
             return NoContent();
         }
 
@@ -156,17 +156,17 @@ namespace MyApp.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult UpdateDacha(int id, [FromBody] DachaDTO dachaDto)
         {
-            _logger.LogInformation("UpdateDacha method called for ID: {DachaId}.", id);
+            _logger.Log($"UpdateDacha method called for ID: {id}.", "");
 
             if (dachaDto == null || id != dachaDto.Id)
             {
-                _logger.LogError("UpdateDacha called with null DachaDTO or mismatched ID. Request ID: {RequestId}, DTO ID: {DtoId}. Returning BadRequest.", id, dachaDto?.Id);
+                _logger.Log($"UpdateDacha called with null DachaDTO or mismatched ID. Request ID: {id}, DTO ID: {dachaDto?.Id}. Returning BadRequest.", "error");
                 return BadRequest("Invalid Dacha data or mismatched ID.");
             }
 
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UpdateDacha called with invalid model state for Dacha ID: {DachaId}. Errors: {ModelStateErrors}", id, ModelState);
+                _logger.Log($"UpdateDacha called with invalid model state for Dacha ID: {id}. Errors: {ModelState}", "error");
                 return BadRequest(ModelState);
             }
 
@@ -174,7 +174,7 @@ namespace MyApp.Server.Controllers
 
             if (dachaToUpdate == null)
             {
-                _logger.LogWarning("Dacha with ID: {DachaId} not found for update. Returning NotFound.", id);
+                _logger.Log($"Dacha with ID: {id} not found for update. Returning NotFound.", "warning");
                 return NotFound($"Dacha with ID {id} not found.");
             }
 
@@ -182,7 +182,7 @@ namespace MyApp.Server.Controllers
             dachaToUpdate.IsAvailable = dachaDto.IsAvailable;
             dachaToUpdate.Sqft = dachaDto.Sqft;
 
-            _logger.LogInformation("Successfully updated Dacha with ID: {DachaId}. New Name: '{NewName}'.", id, dachaToUpdate.Name);
+            _logger.Log($"Successfully updated Dacha with ID: {id}. New Name: '{dachaToUpdate.Name}'.", "");
             return NoContent();
         }
 
@@ -192,11 +192,11 @@ namespace MyApp.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult UpdatePartialDacha(int id, JsonPatchDocument<DachaDTO> patchDto)
         {
-            _logger.LogInformation("UpdatePartialDacha method called for ID: {DachaId}.", id);
+            _logger.Log($"UpdatePartialDacha method called for ID: {id}.", "");
 
             if (patchDto == null || id <= 0)
             {
-                _logger.LogError("UpdatePartialDacha called with null patch data or invalid ID: {InvalidId}. Returning BadRequest.", id);
+                _logger.Log($"UpdatePartialDacha called with null patch data or invalid ID: {id}. Returning BadRequest.", "error");
                 return BadRequest("Patch data or valid Dacha ID is required.");
             }
 
@@ -204,7 +204,7 @@ namespace MyApp.Server.Controllers
 
             if (dachaToUpdate == null)
             {
-                _logger.LogWarning("Dacha with ID: {DachaId} not found for partial update. Returning NotFound.", id);
+                _logger.Log($"Dacha with ID: {id} not found for partial update. Returning NotFound.", "warning");
                 return NotFound($"Dacha with ID {id} not found.");
             }
 
@@ -212,11 +212,11 @@ namespace MyApp.Server.Controllers
 
             if (!ModelState.IsValid)
             {
-                _logger.LogError("Partial update failed for Dacha ID: {DachaId} due to model state validation errors. Errors: {ModelStateErrors}", id, ModelState);
+                _logger.Log($"Partial update failed for Dacha ID: {id} due to model state validation errors. Errors: {ModelState}", "error");
                 return BadRequest(ModelState);
             }
 
-            _logger.LogInformation("Successfully applied partial update to Dacha with ID: {DachaId}. New Name (if changed): '{NewName}'.", id, dachaToUpdate.Name);
+            _logger.Log($"Successfully applied partial update to Dacha with ID: {id}. New Name (if changed): '{dachaToUpdate.Name}'.", "");
             return NoContent();
         }
     }
