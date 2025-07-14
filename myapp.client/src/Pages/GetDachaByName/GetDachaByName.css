@@ -115,23 +115,43 @@
 .get-dacha-by-name-container .dacha-details h2 {
     color: #28a745;
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Increased margin for better spacing */
     font-size: 1.8em;
     text-align: center;
 }
 
-.get-dacha-by-name-container .dacha-details p {
-    margin: 10px 0;
-    line-height: 1.6;
-    font-size: 1.1em;
-    text-align: left;
+/* Yangi stil: Ma'lumotlarni joylash uchun container */
+.dacha-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Har bir element uchun kamida 280px kenglik */
+    gap: 15px; /* Elementlar orasidagi bo'shliq */
 }
 
-.get-dacha-by-name-container .dacha-details strong {
-    color: #555;
-    min-width: 120px;
-    display: inline-block;
+/* Har bir ma'lumot elementi uchun stil */
+.dacha-info-item {
+    background-color: #ffffff;
+    border: 1px solid #cceeff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column; /* Label va qiymat ustma-ust bo'lishi uchun */
+    align-items: flex-start; /* Chapga tekislash */
 }
+
+.dacha-info-item strong {
+    color: #34495e;
+    font-size: 0.9em; /* Label uchun kichikroq shrift */
+    margin-bottom: 5px; /* Label va qiymat orasidagi bo'shliq */
+    display: block; /* Labelni alohida qatorga o'tkazish */
+}
+
+.dacha-info-item span {
+    color: #2c3e50;
+    font-size: 1.1em; /* Qiymat uchun kattaroq shrift */
+    font-weight: 500;
+}
+
 
 .get-dacha-by-name-container .not-found-error {
     background-color: #ffebeb;
@@ -188,6 +208,9 @@
     .get-dacha-by-name-container .initial-message {
         padding: 20px;
     }
+    .dacha-info-grid {
+        grid-template-columns: 1fr; /* Kichik ekranlarda bir ustunli joylashuv */
+    }
 }
 
 @media (max-width: 480px) {
@@ -209,9 +232,9 @@
         font-size: 0.95em;
     }
 
-    .get-dacha-by-name-container .dacha-details p,
-    .get-dacha-by-name-container .not-found-error p,
+    .get-dacha-by-name-container .dacha-details,
+    .get-dacha-by-name-container .not-found-error,
     .get-dacha-by-name-container .initial-message {
-        font-size: 1em;
+        padding: 20px;
     }
 }

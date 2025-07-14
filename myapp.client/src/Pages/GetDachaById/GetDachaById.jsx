@@ -62,7 +62,7 @@ function GetDachaById (){
     async function GetData() {
         setLoading(true);
         try {
-            const response = await fetch('https://localhost:7019/api/MyDacha/id?id=' + dachaId);
+            const response = await fetch('https://localhost:7019/api/MyDacha/' + dachaId);
             if (response.ok) {
                 const data = await response.json();
                 setDacha(data);

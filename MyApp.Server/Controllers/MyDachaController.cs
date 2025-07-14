@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyApp.Server.Data;
 using MyApp.Server.Logging;
 using MyApp.Server.Models;
@@ -29,7 +30,7 @@ namespace MyApp.Server.Controllers
             return Ok(dachas);
         }
 
-        [HttpGet("id", Name = "GetDachaById")]
+        [HttpGet("{id:int}", Name = "GetDachaById")] 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -54,7 +55,7 @@ namespace MyApp.Server.Controllers
             return Ok(dacha);
         }
 
-        [HttpGet("name", Name = "GetDachaByName")]
+        [HttpGet("{name}", Name = "GetDachaByName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,7 +68,7 @@ namespace MyApp.Server.Controllers
                 return BadRequest("Dacha name cannot be empty.");
             }
 
-            var dacha = _db.Dachas.FirstOrDefault(u => u.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var dacha = _db.Dachas.FirstOrDefault(u => u.Name.ToLower() == name.ToLower());
 
             if (dacha == null)
             {
@@ -99,7 +100,7 @@ namespace MyApp.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (_db.Dachas.Any(u => u.Name.Equals(dachaDto.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_db.Dachas.Any(u => u.Name.ToLower() == dachaDto.Name.ToLower()))
             {
                 ModelState.AddModelError("CustomError", "Bunday Dacha mavjud. Iltimos, boshqa nom kiriting.");
                 _logger.Log($"Attempt to create Dacha with duplicate name: '{dachaDto.Name}'. Returning BadRequest.", "warning");
@@ -112,12 +113,6 @@ namespace MyApp.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "New Dacha should not have an ID.");
             }
 
-            if (string.IsNullOrWhiteSpace(dachaDto.Name))
-            {
-                _logger.Log("CreateDacha called with an empty or null Dacha name. Returning BadRequest.", "error");
-                return BadRequest(new { message = "Sizning so'rovingizda xatolik bor. Dacha nomini kiritishingiz shart." });
-            }
-
             Dacha model = new()
             {
                 Name = dachaDto.Name,
@@ -127,6 +122,8 @@ namespace MyApp.Server.Controllers
                 IsAvailable = dachaDto.IsAvailable,
                 ImageURL = dachaDto.ImageURL,
                 Amenity = dachaDto.Amenity,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
             };
 
             _db.Dachas.Add(model);
@@ -136,7 +133,7 @@ namespace MyApp.Server.Controllers
             return CreatedAtRoute("GetDachaById", new { id = model.Id }, dachaDto);
         }
 
-        [HttpDelete("{id}", Name = "DeleteDacha")]
+        [HttpDelete("{id:int}", Name = "DeleteDacha")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -164,7 +161,7 @@ namespace MyApp.Server.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}", Name = "UpdateDacha")]
+        [HttpPut("{id:int}", Name = "UpdateDacha")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -195,7 +192,7 @@ namespace MyApp.Server.Controllers
             return NoContent();
         }
 
-        [HttpPatch("{id}", Name = "UpdatePartialDacha")]
+        [HttpPatch("{id:int}", Name = "UpdatePartialDacha")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -211,6 +208,12 @@ namespace MyApp.Server.Controllers
 
             var dachaToUpdate = _db.Dachas.FirstOrDefault(u => u.Id == id);
 
+            if (dachaToUpdate == null)
+            {
+                _logger.Log($"Dacha with ID: {id} not found for partial update. Returning NotFound.", "warning");
+                return NotFound($"Dacha with ID {id} not found."); 
+            }
+
             DachaDTO dachaDto = new()
             {
                 Id = dachaToUpdate.Id,
@@ -223,13 +226,13 @@ namespace MyApp.Server.Controllers
                 Amenity = dachaToUpdate.Amenity
             };
 
-            if (dachaToUpdate == null)
-            {
-                _logger.Log($"Dacha with ID: {id} not found for partial update. Returning NotFound.", "warning");
-                return BadRequest($"Dacha with ID {id} not found.");
-            }
-
             patchDto.ApplyTo(dachaDto, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                _logger.Log($"Partial update failed due to invalid model state for ID: {id}. Errors: {ModelState}", "error");
+                return BadRequest(ModelState);
+            }
 
             Dacha model = new()
             {
@@ -240,13 +243,15 @@ namespace MyApp.Server.Controllers
                 Sqft = dachaDto.Sqft,
                 IsAvailable = dachaDto.IsAvailable,
                 ImageURL = dachaDto.ImageURL,
-                Amenity = dachaDto.Amenity
+                Amenity = dachaDto.Amenity,
+                CreatedDate = dachaToUpdate.CreatedDate,
+                UpdatedDate = DateTime.Now
             };
 
             _db.Dachas.Update(model);
             _db.SaveChanges();
 
-            _logger.Log($"Successfully applied partial update to Dacha with ID: {id}. New Name (if changed): '{dachaToUpdate.Name}'.", "");
+            _logger.Log($"Successfully applied partial update to Dacha with ID: {id}. New Name (if changed): '{model.Name}'.", "");
             return NoContent();
         }
     }

@@ -12,7 +12,7 @@ namespace MyApp.Server.Models.DTO
         [MaxLength(30)]
         public string Name { get; set; }
         public string Details { get; set; }
-        [Required(ErrorMessage = "Bu dachaga baho bering")]
+        [Required(ErrorMessage = "Dachaga baho bering")]
         public double Rate { get; set; }
         public int Sqft { get; set; }
         public string IsAvailable { get; set; } 

@@ -12,7 +12,6 @@ const App = () => {
       <Routes>
         <Route element={<Layout/>}>
           <Route path='/' element={<GetAllDachas/>}/>
-          <Route path='/GetDachaById' element={<GetDachaById/>}/>
           <Route path='/CreateNewDacha' element={<CreateNewDacha/>}/>
           <Route path='/GetDachaByName' element={<GetDachaByName/>}/>
         </Route>

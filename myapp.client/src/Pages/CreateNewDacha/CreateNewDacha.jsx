@@ -6,6 +6,10 @@ const CreateNewDacha = () => {
     const [name, setName] = useState("");
     const [sqft, setSqft] = useState("");
     const [isAvailable, setIsAvailable] = useState("Ha");
+    const [details, setDetails] = useState("");
+    const [rate, setRate] = useState(0);
+    const [imageURL, setImageURL] = useState("");
+    const [amenity, setAmenity] = useState("");
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -23,8 +27,13 @@ const CreateNewDacha = () => {
                 },
                 body: JSON.stringify({
                     name: name,
+                    details: details,
+                    rate: rate,
                     sqft: parseInt(sqft, 10),
-                    isAvailable: isAvailable
+                    isAvailable: isAvailable,
+                    imageURL: imageURL,
+                    amenity: amenity
+                    
                 })
             });
 
