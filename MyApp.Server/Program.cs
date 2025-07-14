@@ -1,6 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using MyApp.Server.Data;
 using MyApp.Server.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    var serverVersion = ServerVersion.AutoDetect(connectionString); // Server versiyasini aniqlash
+    options.UseMySql(connectionString, serverVersion);
+});
 
 builder.Services.AddControllers(option =>
 {

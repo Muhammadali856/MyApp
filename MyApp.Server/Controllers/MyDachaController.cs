@@ -12,9 +12,11 @@ namespace MyApp.Server.Controllers
     public class MyDachaController : ControllerBase
     {
         private readonly ILogging _logger;
-        public MyDachaController(ILogging logger)
+        private readonly ApplicationDbContext _db;
+        public MyDachaController(ILogging logger, ApplicationDbContext db)
         {
             _logger = logger;
+            _db = db;
         }
 
         [HttpGet]
@@ -22,7 +24,7 @@ namespace MyApp.Server.Controllers
         public ActionResult<IEnumerable<DachaDTO>> GetDachas()
         {
             _logger.Log("GetDachas method called.", "");
-            var dachas = DachaStore.DachaList;
+            var dachas = _db.Dachas.ToList();
             _logger.Log($"Successfully retrieved {dachas.Count} dachas.", "");
             return Ok(dachas);
         }
@@ -40,7 +42,7 @@ namespace MyApp.Server.Controllers
                 return BadRequest("Dacha ID cannot be zero or negative.");
             }
 
-            var dacha = DachaStore.DachaList.FirstOrDefault(u => u.Id == id);
+            var dacha = _db.Dachas.FirstOrDefault(u => u.Id == id);
 
             if (dacha == null)
             {
@@ -65,7 +67,7 @@ namespace MyApp.Server.Controllers
                 return BadRequest("Dacha name cannot be empty.");
             }
 
-            var dacha = DachaStore.DachaList.FirstOrDefault(u => u.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var dacha = _db.Dachas.FirstOrDefault(u => u.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
             if (dacha == null)
             {
@@ -97,7 +99,7 @@ namespace MyApp.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (DachaStore.DachaList.Any(u => u.Name.Equals(dachaDto.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_db.Dachas.Any(u => u.Name.Equals(dachaDto.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 ModelState.AddModelError("CustomError", "Bunday Dacha mavjud. Iltimos, boshqa nom kiriting.");
                 _logger.Log($"Attempt to create Dacha with duplicate name: '{dachaDto.Name}'. Returning BadRequest.", "warning");
@@ -116,11 +118,22 @@ namespace MyApp.Server.Controllers
                 return BadRequest(new { message = "Sizning so'rovingizda xatolik bor. Dacha nomini kiritishingiz shart." });
             }
 
-            dachaDto.Id = DachaStore.DachaList.Any() ? DachaStore.DachaList.Max(u => u.Id) + 1 : 1;
-            DachaStore.DachaList.Add(dachaDto);
+            Dacha model = new()
+            {
+                Name = dachaDto.Name,
+                Details = dachaDto.Details,
+                Rate = dachaDto.Rate,
+                Sqft = dachaDto.Sqft,
+                IsAvailable = dachaDto.IsAvailable,
+                ImageURL = dachaDto.ImageURL,
+                Amenity = dachaDto.Amenity,
+            };
 
-            _logger.Log($"Successfully created new Dacha with ID: {dachaDto.Id} and Name: '{dachaDto.Name}'.", "");
-            return CreatedAtRoute("GetDachaById", new { id = dachaDto.Id }, dachaDto);
+            _db.Dachas.Add(model);
+            _db.SaveChanges();
+
+            _logger.Log($"Successfully created new Dacha with ID: {model.Id} and Name: '{model.Name}'.", "");
+            return CreatedAtRoute("GetDachaById", new { id = model.Id }, dachaDto);
         }
 
         [HttpDelete("{id}", Name = "DeleteDacha")]
@@ -137,7 +150,7 @@ namespace MyApp.Server.Controllers
                 return BadRequest("Dacha ID cannot be zero or negative.");
             }
 
-            var dachaToDelete = DachaStore.DachaList.FirstOrDefault(u => u.Id == id);
+            var dachaToDelete = _db.Dachas.FirstOrDefault(u => u.Id == id);
 
             if (dachaToDelete == null)
             {
@@ -145,7 +158,8 @@ namespace MyApp.Server.Controllers
                 return NotFound($"Dacha with ID {id} not found.");
             }
 
-            DachaStore.DachaList.Remove(dachaToDelete);
+            _db.Dachas.Remove(dachaToDelete);
+            _db.SaveChanges();
             _logger.Log($"Successfully deleted Dacha with ID: {id} and Name: '{dachaToDelete.Name}'.", "");
             return NoContent();
         }
@@ -164,25 +178,20 @@ namespace MyApp.Server.Controllers
                 return BadRequest("Invalid Dacha data or mismatched ID.");
             }
 
-            if (!ModelState.IsValid)
+            Dacha model = new()
             {
-                _logger.Log($"UpdateDacha called with invalid model state for Dacha ID: {id}. Errors: {ModelState}", "error");
-                return BadRequest(ModelState);
-            }
+                Name = dachaDto.Name,
+                Details = dachaDto.Details,
+                Rate = dachaDto.Rate,
+                Sqft = dachaDto.Sqft,
+                IsAvailable = dachaDto.IsAvailable,
+                ImageURL = dachaDto.ImageURL,
+                Amenity = dachaDto.Amenity,
+                Id = dachaDto.Id
+            };
 
-            var dachaToUpdate = DachaStore.DachaList.FirstOrDefault(u => u.Id == id);
-
-            if (dachaToUpdate == null)
-            {
-                _logger.Log($"Dacha with ID: {id} not found for update. Returning NotFound.", "warning");
-                return NotFound($"Dacha with ID {id} not found.");
-            }
-
-            dachaToUpdate.Name = dachaDto.Name;
-            dachaToUpdate.IsAvailable = dachaDto.IsAvailable;
-            dachaToUpdate.Sqft = dachaDto.Sqft;
-
-            _logger.Log($"Successfully updated Dacha with ID: {id}. New Name: '{dachaToUpdate.Name}'.", "");
+            _db.Dachas.Update(model);
+            _db.SaveChanges();
             return NoContent();
         }
 
@@ -200,21 +209,42 @@ namespace MyApp.Server.Controllers
                 return BadRequest("Patch data or valid Dacha ID is required.");
             }
 
-            var dachaToUpdate = DachaStore.DachaList.FirstOrDefault(u => u.Id == id);
+            var dachaToUpdate = _db.Dachas.FirstOrDefault(u => u.Id == id);
+
+            DachaDTO dachaDto = new()
+            {
+                Id = dachaToUpdate.Id,
+                Name = dachaToUpdate.Name,
+                Details = dachaToUpdate.Details,
+                Rate = dachaToUpdate.Rate,
+                Sqft = dachaToUpdate.Sqft,
+                IsAvailable = dachaToUpdate.IsAvailable,
+                ImageURL = dachaToUpdate.ImageURL,
+                Amenity = dachaToUpdate.Amenity
+            };
 
             if (dachaToUpdate == null)
             {
                 _logger.Log($"Dacha with ID: {id} not found for partial update. Returning NotFound.", "warning");
-                return NotFound($"Dacha with ID {id} not found.");
+                return BadRequest($"Dacha with ID {id} not found.");
             }
 
-            patchDto.ApplyTo(dachaToUpdate, ModelState);
+            patchDto.ApplyTo(dachaDto, ModelState);
 
-            if (!ModelState.IsValid)
+            Dacha model = new()
             {
-                _logger.Log($"Partial update failed for Dacha ID: {id} due to model state validation errors. Errors: {ModelState}", "error");
-                return BadRequest(ModelState);
-            }
+                Id = dachaDto.Id,
+                Name = dachaDto.Name,
+                Details = dachaDto.Details,
+                Rate = dachaDto.Rate,
+                Sqft = dachaDto.Sqft,
+                IsAvailable = dachaDto.IsAvailable,
+                ImageURL = dachaDto.ImageURL,
+                Amenity = dachaDto.Amenity
+            };
+
+            _db.Dachas.Update(model);
+            _db.SaveChanges();
 
             _logger.Log($"Successfully applied partial update to Dacha with ID: {id}. New Name (if changed): '{dachaToUpdate.Name}'.", "");
             return NoContent();
